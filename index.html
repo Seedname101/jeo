@@ -1,1 +1,74 @@
+<!DOCTYPE html>
 
+<html> 
+ <head>
+    <title>Jeopardy</title> 
+</head>
+ <body>
+    <p align="center"> 
+      <canvas id="mycanvas"></canvas> 
+    </p>
+ </body>
+
+ <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+ 
+ <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(600, 600); 
+        frameRate(60);
+/* @pjs font="gyparody.ttf"; */
+
+var jeopardy = function(x, y, question, answer, points){
+this.x = x;
+this.y = y;
+this.q = question;
+this.a = answer;
+this.p = points;
+};
+jeopardy.prototype.click = function(){
+
+};
+jeopardy.prototype.revealAnswer = function(){
+
+};
+jeopardy.prototype.display = function() {
+    fill(255, 204, 0);
+};
+var scene = 0;    
+textFont(createFont("gyparody"), 150);
+textAlign(CENTER, CENTER);
+var jeoY= height-height-(textAscent());
+draw = function() {
+if(scene === 0){
+if(jeoY <= height/3){
+      jeoY+=1.5;
+} else {
+    
+}
+    background(6,12,233);
+    textFont(createFont("gyparody"), 140);
+    textAlign(CENTER, CENTER);
+    fill(0, 0, 0);
+    text("JEOPARDY!", width/2+10, jeoY);
+    fill(255, 255, 255);
+    text("JEOPARDY!", width/2, jeoY);
+
+    
+}
+if(scene === 1){
+    
+}
+};
+mouseClicked = function(){
+
+};
+
+    }};
+
+    var canvas = document.getElementById("mycanvas"); 
+
+    var processingInstance = new Processing(canvas, sketchProc); 
+ </script>
+
+</html>
