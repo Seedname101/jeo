@@ -18,12 +18,15 @@
         size(800, 800); 
         frameRate(60);
 
-var jeopardy = function(x, y, question, answer, points){
-this.x = x;
-this.y = y;
-this.q = question;
-this.a = answer;
-this.p = points;
+var jeopardy = function(row, column, question, answer, points){
+this.row = row;
+this.column = column;
+this.question = question;
+this.answer = answer;
+this.points = points;
+//this.scene = "r" + this.row + "c" + this.column;
+this.background = color(6,12,233);
+this.textC = color(255, 204, 0);
 };
 jeopardy.prototype.click = function(){
 
@@ -32,19 +35,96 @@ jeopardy.prototype.revealAnswer = function(){
 
 };
 jeopardy.prototype.display = function() {
-    fill(255, 204, 0);
+    fill(this.textC);
+};
+
+
+var category = function(column, category){
+this.column = column-1;
+this.category = category;
+};
+category.prototype.display = function() {
+//rectangle background
+fill(6,12,233);
+stroke(0, 0, 0);
+strokeWeight(4);
+rect((this.column/6)*width, 0, width/6, height/7);
+
+//Displays the category
+textAlign(CENTER, CENTER);
+textFont(createFont("impact"), 25);
+fill(255);
+text(this.category, ((this.column/6)*width)+width/6/2, (height/7)/2);
+};
+
+var guest = function(guest, handicap){
+this.guest = guest;
+this.column = guest-1;
+this.points = handicap;
+};
+guest.prototype.add = function(){
+
+};
+guest.prototype.subtract = function(){
+
+};
+guest.prototype.display = function(){
+//rectangle background
+fill(6,12,233);
+stroke(0, 0, 0);
+strokeWeight(4);
+rect((this.column/6)*width, height-height/7, width/6, height/7);
+
+textAlign(CENTER, CENTER);
+textFont(createFont("impact"), 25);
+fill(255);
+
+//Displays "Guest"
+text("Guest " + this.guest, ((this.column/6)*width)+width/6/2, (height-height/7)+(height/7)/5);
+
+//Displays Points
+text(this.points, ((this.column/6)*width)+width/6/2, (height-height/7)+(height/7)/1.8);
+
+//Correct and Incorrect Boxes
+
+fill(0, 128, 0);
+rect(((this.column/6)*width)+width/9, (height-height/7)+(height/7/1.5), 30 , 30);
+fill(166, 50, 50);
+rect(((this.column/6)*width)+width/9/6, (height-height/7)+(height/7/1.5), 30 , 30); 
+
+textFont(createFont("impact"), 40);
+fill(0, 0, 0);
+text("+", ((this.column/6)*width)+width/9/0.85, (height-height/7)+(height/7/1.5)*1.2);
+
+text("-", ((this.column/6)*width)+width/9/3, (height-height/7)+(height/7/1.5)*1.15); 
 };
 textFont(createFont("impact"), 150);
 textAlign(CENTER, CENTER);
 var scene = 0;    
 var jeoY= height-height-(textAscent());
 var startStroke = color(255);
+
+//Categories
+var category1 = new category(1, "Lorem");
+var category2 = new category(2, "Ipsum");
+var category3 = new category(3, "Dolor");
+var category4 = new category(4, "Sit");
+var category5 = new category(5, "Amet");
+var category6 = new category(6, "Foo");
+
+//Guests
+var guest1 = new guest(1, 0);
+var guest2 = new guest(2, 0);
+var guest3 = new guest(3, 0);
+var guest4 = new guest(4, 0);
+var guest5 = new guest(5, 0);
+var guest6 = new guest(6, 0);
 draw = function() {
 if(scene === 0){
 background(6,12,233);
 textAlign(CENTER, CENTER);
 if(jeoY <= height/3){
-      jeoY+=1.5;
+    jeoY+=1.5;
 } else {
     textFont(createFont("impact"), 60);
     noFill();
@@ -62,18 +142,30 @@ if(jeoY <= height/3){
 } else {
     startStroke = color(255);
 }
-  
 }
     textFont(createFont("impact"), 185);
     fill(0, 0, 0);
     text("JEOPARDY!", width/2+10, jeoY);
     fill(255, 255, 255);
     text("JEOPARDY!", width/2, jeoY);
-
-    
 }
+
 if(scene === 1){
     background(6,12,233);
+//CATEGORIES
+    category1.display();
+    category2.display();
+    category3.display();
+    category4.display();
+    category5.display();
+    category6.display();
+//GUESTS
+    guest1.display();
+    guest2.display();
+    guest3.display();
+    guest4.display();
+    guest5.display();
+    guest6.display();
 }
 
 
@@ -84,6 +176,8 @@ if(scene === 0 && jeoY >= height/3 && mouseX >= width/2-250/2 && mouseX <= width
     scene += 1;
 }
 };
+//scene = 1;
+
 
 
     }};
