@@ -34,20 +34,37 @@ jeopardy.prototype.revealAnswer = function(){
 jeopardy.prototype.display = function() {
     fill(255, 204, 0);
 };
-var scene = 0;    
 textFont(createFont("impact"), 150);
 textAlign(CENTER, CENTER);
+var scene = 0;    
 var jeoY= height-height-(textAscent());
+var startStroke = color(255);
 draw = function() {
 if(scene === 0){
+background(6,12,233);
+textAlign(CENTER, CENTER);
 if(jeoY <= height/3){
       jeoY+=1.5;
 } else {
-    
+    textFont(createFont("impact"), 60);
+    noFill();
+    strokeWeight(15);
+    stroke(0, 0, 0);
+    rect(width/2-250/2+7, height/1.5-100/2, 250, 100);
+    stroke(startStroke);
+    rect(width/2-250/2, height/1.5-100/2, 250, 100);
+    fill(0, 0, 0);
+    text("START!", width/2+7, height/1.5);
+    fill(startStroke);
+    text("START!", width/2, height/1.5);
+    if(mouseX >= width/2-250/2 && mouseX <= width/2-250/2+250 && mouseY >= height/1.5-100/2 && mouseY <= height/1.5-100/2+100){
+    startStroke = color(200);
+} else {
+    startStroke = color(255);
 }
-    background(6,12,233);
-    textFont(createFont("impact"), 150);
-    textAlign(CENTER, CENTER);
+  
+}
+    textFont(createFont("impact"), 185);
     fill(0, 0, 0);
     text("JEOPARDY!", width/2+10, jeoY);
     fill(255, 255, 255);
@@ -56,12 +73,18 @@ if(jeoY <= height/3){
     
 }
 if(scene === 1){
-    
+    background(6,12,233);
 }
-};
-mouseClicked = function(){
+
+
 
 };
+mouseClicked = function(){
+if(scene === 0 && jeoY >= height/3 && mouseX >= width/2-250/2 && mouseX <= width/2-250/2+250 && mouseY >= height/1.5-100/2 && mouseY <= height/1.5-100/2+100){
+    scene += 1;
+}
+};
+
 
     }};
 
