@@ -17,6 +17,7 @@
      with (processingInstance) {
         size(800, 800); 
 frameRate(60);
+var gyparody = loadFont("FFScala.ttf"); 
       var jeopardy = function(row, column, question, answer){
 this.row = row;
 this.column = column-1;
@@ -192,7 +193,7 @@ textAlign(CENTER, CENTER);
 if(jeoY <= height/3){
     jeoY+=1.5;
 } else {
-    textFont(createFont("GYPARODY.TTF"), 60);
+    textFont(createFont("gyparody"), 60);
     noFill();
     strokeWeight(15);
     stroke(0, 0, 0);
@@ -209,7 +210,7 @@ if(jeoY <= height/3){
     startStroke = color(255);
 }
 }
-    textFont(createFont("GYPARODY.TTF"), 185);
+    textFont(createFont("gyparody"), 185);
     fill(0, 0, 0);
     text("JEOPARDY!", width/2+10, jeoY);
     fill(255, 255, 255);
