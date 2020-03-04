@@ -16,9 +16,8 @@
     var sketchProc = function(processingInstance) {
      with (processingInstance) {
         size(800, 800); 
-        frameRate(60);
-
-var jeopardy = function(row, column, question, answer){
+frameRate(60);
+      var jeopardy = function(row, column, question, answer){
 this.row = row;
 this.column = column-1;
 this.question = question;
@@ -71,13 +70,14 @@ this.guest = guest;
 this.column = guest-1;
 this.points = handicap;
 };
-guest.prototype.add = function(points){
-if (mouseX >= ((this.column/6)*width)+width/9 && mouseX <= ((this.column/6)*width)+width/9+30  && mouseY >= (height-height/7)+(height/7/1.5) && mouseY <= (height-height/7)+(height/7/1.5)+30){
-    this.points += points;
-}
+
+/** RIGHT NOW I AM RETURNING THE FUNCTION IF THE BUTTON IS PRESSED **/
+
+guest.prototype.add = function(){
+return (mouseX >= ((this.column/6)*width)+width/9 && mouseX <= ((this.column/6)*width)+width/9+30  && mouseY >= (height-height/7)+(height/7/1.5) && mouseY <= (height-height/7)+(height/7/1.5)+30);
 };
 guest.prototype.subtract = function(){
-
+return (mouseX >= (((this.column/6)*width)+width/9/6 && mouseX <= ((this.column/6)*width)+width/9/6+30) && mouseY >= (height-height/7)+(height/7/1.5) && mouseY <= (height-height/7)+(height/7/1.5)+30);
 };
 guest.prototype.display = function(){
 //rectangle background
@@ -91,10 +91,10 @@ textFont(createFont("impact"), 25);
 fill(255);
 
 //Displays "Guest"
-text("Guest " + this.guest, ((this.column/6)*width)+width/6/2, (height-height/7)+(height/7)/5);
+text("GUEST " + this.guest, ((this.column/6)*width)+width/6/2, (height-height/7)+(height/7)/5);
 
 //Displays Points
-text(this.points, ((this.column/6)*width)+width/6/2, (height-height/7)+(height/7)/1.9);
+text("$" + this.points, ((this.column/6)*width)+width/6/2, (height-height/7)+(height/7)/1.9);
 
 //Correct and Incorrect Boxes
 
@@ -103,35 +103,44 @@ rect(((this.column/6)*width)+width/9, (height-height/7)+(height/7/1.5), 30 , 30)
 fill(166, 50, 50);
 rect(((this.column/6)*width)+width/9/6, (height-height/7)+(height/7/1.5), 30 , 30); 
 
+// + / - signs
+
 textFont(createFont("impact"), 40);
 fill(0, 0, 0);
 text("+", ((this.column/6)*width)+width/9/0.85, (height-height/7)+(height/7/1.5)*1.2);
 
 text("-", ((this.column/6)*width)+width/9/3, (height-height/7)+(height/7/1.5)*1.15); 
 };
+
 textFont(createFont("impact"), 150);
 textAlign(CENTER, CENTER);
+
 var scene = 0;    
 var jeoY= height-height-(textAscent());
 var startStroke = color(255);
 
-//Categories
-var category1 = new category(1, "Lorem");
-var category2 = new category(2, "Ipsum");
-var category3 = new category(3, "Dolor");
-var category4 = new category(4, "Sit");
-var category5 = new category(5, "Amet");
-var category6 = new category(6, "Foo");
-
-//Guests
-var guest1 = new guest(1, 0);
-var guest2 = new guest(2, 0);
-var guest3 = new guest(3, 0);
-var guest4 = new guest(4, 0);
-var guest5 = new guest(5, 0);
-var guest6 = new guest(6, 0);
-
-//Points
+var guests = [];
+for (var i = 1; i < 7; i++) {
+    guests.push(new guest(i, 0));
+     
+}    
+//Categories {
+var category1 = new category(1, "LOREM");
+var category2 = new category(2, "IPSUM");
+var category3 = new category(3, "DOLOR");
+var category4 = new category(4, "SIT");
+var category5 = new category(5, "AMET");
+var category6 = new category(6, "FOO");
+//}
+//Guests {
+//var guest1 = new guest(1, 0);
+//var guest2 = new guest(2, 0);
+//var guest3 = new guest(3, 0);
+//var guest4 = new guest(4, 0);
+//var guest5 = new guest(5, 0);
+//var guest6 = new guest(6, 0);
+//}
+//Points {
 //Column 1 {
 var r1c1 = new jeopardy(1, 1, "Something?", "Something else");
 var r2c1 = new jeopardy(2, 1, "Something?", "Something else");
@@ -173,6 +182,7 @@ var r2c6 = new jeopardy(2, 6, "Something?", "Something else");
 var r3c6 = new jeopardy(3, 6, "Something?", "Something else");
 var r4c6 = new jeopardy(4, 6, "Something?", "Something else");
 var r5c6 = new jeopardy(5, 6, "Something?", "Something else");
+//}
 //}
 
 draw = function() {
@@ -216,12 +226,13 @@ if(scene === 1){
     category5.display();
     category6.display();
 //GUESTS
-    guest1.display();
-    guest2.display();
-    guest3.display();
-    guest4.display();
-    guest5.display();
-    guest6.display();
+    for (var i = 0; i < guests.length; i++) {
+        guests[i].display();
+    }
+
+
+
+
 //POINTS
 //Column 1 {
     r1c1.display();
@@ -276,6 +287,7 @@ if(scene === 0 && jeoY >= height/3 && mouseX >= width/2-250/2 && mouseX <= width
     scene += 1;
 }
 };
+
 
 
     }};
