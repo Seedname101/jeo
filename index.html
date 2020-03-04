@@ -18,24 +18,33 @@
         size(800, 800); 
         frameRate(60);
 
-var jeopardy = function(row, column, question, answer, points){
+var jeopardy = function(row, column, question, answer){
 this.row = row;
-this.column = column;
+this.column = column-1;
 this.question = question;
 this.answer = answer;
-this.points = points;
+this.points = this.row*200;
+this.clicked = false;
 //this.scene = "r" + this.row + "c" + this.column;
 this.background = color(6,12,233);
 this.textC = color(255, 204, 0);
 };
 jeopardy.prototype.click = function(){
-
+this.clicked = true;
 };
 jeopardy.prototype.revealAnswer = function(){
 
 };
 jeopardy.prototype.display = function() {
+    fill(this.background);
+    stroke(0, 0, 0);
+    strokeWeight(4);
+    rect((this.column/6)*width, (this.row/7)*height, width/6, height/7);
+    
+    textAlign(CENTER, CENTER);
+    textFont(createFont("impact"), 50);
     fill(this.textC);
+    text("$" + this.points, ((this.column/6)*width)+width/6/2, ((this.row/7)*height)+height/7/2);
 };
 
 
@@ -62,8 +71,10 @@ this.guest = guest;
 this.column = guest-1;
 this.points = handicap;
 };
-guest.prototype.add = function(){
-
+guest.prototype.add = function(points){
+if (mouseX >= ((this.column/6)*width)+width/9 && mouseX <= ((this.column/6)*width)+width/9+30  && mouseY >= (height-height/7)+(height/7/1.5) && mouseY <= (height-height/7)+(height/7/1.5)+30){
+    this.points += points;
+}
 };
 guest.prototype.subtract = function(){
 
@@ -76,14 +87,14 @@ strokeWeight(4);
 rect((this.column/6)*width, height-height/7, width/6, height/7);
 
 textAlign(CENTER, CENTER);
-textFont(createFont("impact"), 30);
+textFont(createFont("impact"), 25);
 fill(255);
 
 //Displays "Guest"
 text("Guest " + this.guest, ((this.column/6)*width)+width/6/2, (height-height/7)+(height/7)/5);
 
 //Displays Points
-text(this.points, ((this.column/6)*width)+width/6/2, (height-height/7)+(height/7)/2);
+text(this.points, ((this.column/6)*width)+width/6/2, (height-height/7)+(height/7)/1.9);
 
 //Correct and Incorrect Boxes
 
@@ -119,6 +130,51 @@ var guest3 = new guest(3, 0);
 var guest4 = new guest(4, 0);
 var guest5 = new guest(5, 0);
 var guest6 = new guest(6, 0);
+
+//Points
+//Column 1 {
+var r1c1 = new jeopardy(1, 1, "Something?", "Something else");
+var r2c1 = new jeopardy(2, 1, "Something?", "Something else");
+var r3c1 = new jeopardy(3, 1, "Something?", "Something else");
+var r4c1 = new jeopardy(4, 1, "Something?", "Something else");
+var r5c1 = new jeopardy(5, 1, "Something?", "Something else");
+//}
+//Column 2 {
+var r1c2 = new jeopardy(1, 2, "Something?", "Something else");
+var r2c2 = new jeopardy(2, 2, "Something?", "Something else");
+var r3c2 = new jeopardy(3, 2, "Something?", "Something else");
+var r4c2 = new jeopardy(4, 2, "Something?", "Something else");
+var r5c2 = new jeopardy(5, 2, "Something?", "Something else");
+//}
+//Column 3 {
+var r1c3 = new jeopardy(1, 3, "Something?", "Something else");
+var r2c3 = new jeopardy(2, 3, "Something?", "Something else");
+var r3c3 = new jeopardy(3, 3, "Something?", "Something else");
+var r4c3 = new jeopardy(4, 3, "Something?", "Something else");
+var r5c3 = new jeopardy(5, 3, "Something?", "Something else");
+//}
+//Column 4 {
+var r1c4 = new jeopardy(1, 4, "Something?", "Something else");
+var r2c4 = new jeopardy(2, 4, "Something?", "Something else");
+var r3c4 = new jeopardy(3, 4, "Something?", "Something else");
+var r4c4 = new jeopardy(4, 4, "Something?", "Something else");
+var r5c4 = new jeopardy(5, 4, "Something?", "Something else");
+//}
+//Column 5 {
+var r1c5 = new jeopardy(1, 5, "Something?", "Something else");
+var r2c5 = new jeopardy(2, 5, "Something?", "Something else");
+var r3c5 = new jeopardy(3, 5, "Something?", "Something else");
+var r4c5 = new jeopardy(4, 5, "Something?", "Something else");
+var r5c5 = new jeopardy(5, 5, "Something?", "Something else");
+//}
+//Column 6 {
+var r1c6 = new jeopardy(1, 6, "Something?", "Something else");
+var r2c6 = new jeopardy(2, 6, "Something?", "Something else");
+var r3c6 = new jeopardy(3, 6, "Something?", "Something else");
+var r4c6 = new jeopardy(4, 6, "Something?", "Something else");
+var r5c6 = new jeopardy(5, 6, "Something?", "Something else");
+//}
+
 draw = function() {
 if(scene === 0){
 background(6,12,233);
@@ -166,6 +222,50 @@ if(scene === 1){
     guest4.display();
     guest5.display();
     guest6.display();
+//POINTS
+//Column 1 {
+    r1c1.display();
+    r2c1.display();
+    r3c1.display();
+    r4c1.display();
+    r5c1.display();
+//}
+//Column 2 {
+    r1c2.display();
+    r2c2.display();
+    r3c2.display();
+    r4c2.display();
+    r5c2.display();
+//}
+//Column 3 {
+    r1c3.display();
+    r2c3.display();
+    r3c3.display();
+    r4c3.display();
+    r5c3.display();
+//}    
+//Column 4 {
+    r1c4.display();
+    r2c4.display();
+    r3c4.display();
+    r4c4.display();
+    r5c4.display();
+//}   
+//Column 5 {
+    r1c5.display();
+    r2c5.display();
+    r3c5.display();
+    r4c5.display();
+    r5c5.display();
+//}
+//Column 6 {
+    r1c6.display();
+    r2c6.display();
+    r3c6.display();
+    r4c6.display();
+    r5c6.display();
+//}
+
 }
 
 
@@ -176,8 +276,6 @@ if(scene === 0 && jeoY >= height/3 && mouseX >= width/2-250/2 && mouseX <= width
     scene += 1;
 }
 };
-//scene = 1;
-
 
 
     }};
