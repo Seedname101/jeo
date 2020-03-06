@@ -16,33 +16,131 @@
     var sketchProc = function(processingInstance) {
      with (processingInstance) {
         size(800, 800); 
+var question = [];
 frameRate(60);
-/* @pjs font='seedname101.github.io/jeo/GYPARODY.TFF' */
-      var jeopardy = function(row, column, question, answer){
+var jeopardy = function(row, column){
 this.row = row;
-this.column = column-1;
-this.question = question;
-this.answer = answer;
+this.column = column;
 this.points = this.row*200;
 this.clicked = false;
-//this.scene = "r" + this.row + "c" + this.column;
+this.scene = "home";
+this.question = [
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+];	
+this.answer = [
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+	["200",
+	"400",
+	"600",
+	"800",
+	"1000"
+	],
+];
+this.pointsValue = [this.column][this.row-1];
 this.background = color(6,12,233);
 this.textC = color(255, 204, 0);
+this.textC2 = color(0);
+this.textW = width/2;
 };
 jeopardy.prototype.click = function(){
+if(mouseX >= (this.column/6)*width && mouseX <= (this.column/6)*width+width/6 && mouseY >= (this.row/7)*height && mouseY <= (this.row/7)*height+height/7){
 this.clicked = true;
+this.scene = [this.row][this.column]; 
+}
+if(this.clicked === true){
+this.textC = color(6,12,233);
+this.textC2 = color(6,12,233);
+}
+};
+jeopardy.prototype.sceneChange = function(){
+if(this.scene === [this.row][this.column]){
+background(6,12,233);
+textAlign(CENTER, CENTER);
+textFont(createFont("impact"), 170);
+fill(0, 0, 0);
+text("TEST: " + this.question[this.column][this.row-1], width/2+7, height/2);
+fill(255, 255, 255);
+text("TEST: " + this.question[this.column][this.row-1], width/2, height/2);
+}
 };
 jeopardy.prototype.revealAnswer = function(){
 
 };
-jeopardy.prototype.display = function() {
-    fill(this.background);
+jeopardy.prototype.display = function(){
+//rectangles
+ fill(6, 12, 233);
     stroke(0, 0, 0);
     strokeWeight(4);
     rect((this.column/6)*width, (this.row/7)*height, width/6, height/7);
-    
+//text
     textAlign(CENTER, CENTER);
-    textFont(loadFont("seedname101.github.io/jeo/GYPARODY.TFF"), 50);
+    textFont(createFont("impact"), 50);
+    fill(this.textC2);
+    text("$" + this.points, ((this.column/6)*width)+width/6/2+5, ((this.row/7)*height)+height/7/2);
     fill(this.textC);
     text("$" + this.points, ((this.column/6)*width)+width/6/2, ((this.row/7)*height)+height/7/2);
 };
@@ -54,7 +152,7 @@ this.category = category;
 };
 category.prototype.display = function() {
 //rectangle background
-fill(6,12,233);
+fill(6, 12, 233);
 stroke(0, 0, 0);
 strokeWeight(4);
 rect((this.column/6)*width, 0, width/6, height/7);
@@ -62,7 +160,7 @@ rect((this.column/6)*width, 0, width/6, height/7);
 //Displays the category
 textAlign(CENTER, CENTER);
 textFont(createFont("impact"), 25);
-fill(255);
+fill(255, 255, 255);
 text(this.category, ((this.column/6)*width)+width/6/2, (height/7)/2);
 };
 
@@ -72,13 +170,15 @@ this.column = guest-1;
 this.points = handicap;
 };
 
-/** RIGHT NOW I AM RETURNING THE FUNCTION IF THE BUTTON IS PRESSED **/
-
-guest.prototype.add = function(){
-return (mouseX >= ((this.column/6)*width)+width/9 && mouseX <= ((this.column/6)*width)+width/9+30  && mouseY >= (height-height/7)+(height/7/1.5) && mouseY <= (height-height/7)+(height/7/1.5)+30);
+guest.prototype.add = function(points){
+if (mouseX >= ((this.column/6)*width)+width/9 && mouseX <= ((this.column/6)*width)+width/9+30  && mouseY >= (height-height/7)+(height/7/1.5) && mouseY <= (height-height/7)+(height/7/1.5)+30) {
+   this.points += points;
+}
 };
-guest.prototype.subtract = function(){
-return (mouseX >= (((this.column/6)*width)+width/9/6 && mouseX <= ((this.column/6)*width)+width/9/6+30) && mouseY >= (height-height/7)+(height/7/1.5) && mouseY <= (height-height/7)+(height/7/1.5)+30);
+guest.prototype.sub = function(points){
+if (mouseX >= ((this.column/6)*width)+width/9/6 && mouseX <= ((this.column/6)*width)+width/9/6+30 && mouseY >= (height-height/7)+(height/7/1.5) && mouseY <= (height-height/7)+(height/7/1.5)+30) {
+    this.points -= points;
+}
 };
 guest.prototype.display = function(){
 //rectangle background
@@ -89,9 +189,15 @@ rect((this.column/6)*width, height-height/7, width/6, height/7);
 
 textAlign(CENTER, CENTER);
 textFont(createFont("impact"), 25);
-fill(255);
 
 //Displays "Guest"
+fill(0, 0, 0);
+text("GUEST " + this.guest, ((this.column/6)*width)+width/6/2+3, (height-height/7)+(height/7)/5);
+
+//Displays Points
+text("$" + this.points, ((this.column/6)*width)+width/6/2+3, (height-height/7)+(height/7)/1.9);
+
+fill(255, 255, 255);
 text("GUEST " + this.guest, ((this.column/6)*width)+width/6/2, (height-height/7)+(height/7)/5);
 
 //Displays Points
@@ -116,84 +222,54 @@ text("-", ((this.column/6)*width)+width/9/3, (height-height/7)+(height/7/1.5)*1.
 textFont(createFont("impact"), 150);
 textAlign(CENTER, CENTER);
 
-var scene = 0;    
+var scene = 0;   
+var timer = 0;
 var jeoY= height-height-(textAscent());
 var startStroke = color(255);
 
+
+//Categories {
+var category1 = new category(1, "PLACE");
+var category2 = new category(2, "HOLDER");
+var category3 = new category(3, "TEXT");
+var category4 = new category(4, "PLACE");
+var category5 = new category(5, "HOLDER");
+var category6 = new category(6, "TEXT");
+//}
+//Guests {
 var guests = [];
 for (var i = 1; i < 7; i++) {
     guests.push(new guest(i, 0));
-     
-}    
-//Categories {
-var category1 = new category(1, "LOREM");
-var category2 = new category(2, "IPSUM");
-var category3 = new category(3, "DOLOR");
-var category4 = new category(4, "SIT");
-var category5 = new category(5, "AMET");
-var category6 = new category(6, "FOO");
+}  
 //}
-//Guests {
-//var guest1 = new guest(1, 0);
-//var guest2 = new guest(2, 0);
-//var guest3 = new guest(3, 0);
-//var guest4 = new guest(4, 0);
-//var guest5 = new guest(5, 0);
-//var guest6 = new guest(6, 0);
-//}
-//Points {
-//Column 1 {
-var r1c1 = new jeopardy(1, 1, "Something?", "Something else");
-var r2c1 = new jeopardy(2, 1, "Something?", "Something else");
-var r3c1 = new jeopardy(3, 1, "Something?", "Something else");
-var r4c1 = new jeopardy(4, 1, "Something?", "Something else");
-var r5c1 = new jeopardy(5, 1, "Something?", "Something else");
-//}
-//Column 2 {
-var r1c2 = new jeopardy(1, 2, "Something?", "Something else");
-var r2c2 = new jeopardy(2, 2, "Something?", "Something else");
-var r3c2 = new jeopardy(3, 2, "Something?", "Something else");
-var r4c2 = new jeopardy(4, 2, "Something?", "Something else");
-var r5c2 = new jeopardy(5, 2, "Something?", "Something else");
-//}
-//Column 3 {
-var r1c3 = new jeopardy(1, 3, "Something?", "Something else");
-var r2c3 = new jeopardy(2, 3, "Something?", "Something else");
-var r3c3 = new jeopardy(3, 3, "Something?", "Something else");
-var r4c3 = new jeopardy(4, 3, "Something?", "Something else");
-var r5c3 = new jeopardy(5, 3, "Something?", "Something else");
-//}
-//Column 4 {
-var r1c4 = new jeopardy(1, 4, "Something?", "Something else");
-var r2c4 = new jeopardy(2, 4, "Something?", "Something else");
-var r3c4 = new jeopardy(3, 4, "Something?", "Something else");
-var r4c4 = new jeopardy(4, 4, "Something?", "Something else");
-var r5c4 = new jeopardy(5, 4, "Something?", "Something else");
-//}
-//Column 5 {
-var r1c5 = new jeopardy(1, 5, "Something?", "Something else");
-var r2c5 = new jeopardy(2, 5, "Something?", "Something else");
-var r3c5 = new jeopardy(3, 5, "Something?", "Something else");
-var r4c5 = new jeopardy(4, 5, "Something?", "Something else");
-var r5c5 = new jeopardy(5, 5, "Something?", "Something else");
-//}
-//Column 6 {
-var r1c6 = new jeopardy(1, 6, "Something?", "Something else");
-var r2c6 = new jeopardy(2, 6, "Something?", "Something else");
-var r3c6 = new jeopardy(3, 6, "Something?", "Something else");
-var r4c6 = new jeopardy(4, 6, "Something?", "Something else");
-var r5c6 = new jeopardy(5, 6, "Something?", "Something else");
-//}
+//jeoCards {
+var jeoCards = [];
+for (var i = 1; i < 6; i++) {
+    for (var j = 0; j < 7; j++){ 
+    jeoCards.push(new jeopardy(i, j));
+    }
+}   
 //}
 
+var clickt = 0;
+//var clickt2 = 0;
+var timer1 = 0;
+//var timer2 = 0;
+
 draw = function() {
+if(clickt === 0){
+    timer1 = 0;
+}
+if(clickt === 1){
+    timer1 += 0.016;
+}
 if(scene === 0){
 background(6,12,233);
 textAlign(CENTER, CENTER);
 if(jeoY <= height/3){
     jeoY+=1.5;
 } else {
-    textFont(loadFont("seedname101.github.io/jeo/GYPARODY.TFF"), 60);
+    textFont(createFont("impact"), 60);
     noFill();
     strokeWeight(15);
     stroke(0, 0, 0);
@@ -210,7 +286,7 @@ if(jeoY <= height/3){
     startStroke = color(255);
 }
 }
-    textFont(loadFont("seedname101.github.io/jeo/GYPARODY.TFF"), 185);
+    textFont(createFont("impact"), 185);
     fill(0, 0, 0);
     text("JEOPARDY!", width/2+10, jeoY);
     fill(255, 255, 255);
@@ -219,75 +295,95 @@ if(jeoY <= height/3){
 
 if(scene === 1){
     background(6,12,233);
-//CATEGORIES
+//categories {
     category1.display();
     category2.display();
     category3.display();
     category4.display();
     category5.display();
     category6.display();
-//GUESTS
+//}
+//guests {
     for (var i = 0; i < guests.length; i++) {
         guests[i].display();
     }
-
-
-
-
-//POINTS
-//Column 1 {
-    r1c1.display();
-    r2c1.display();
-    r3c1.display();
-    r4c1.display();
-    r5c1.display();
 //}
-//Column 2 {
-    r1c2.display();
-    r2c2.display();
-    r3c2.display();
-    r4c2.display();
-    r5c2.display();
-//}
-//Column 3 {
-    r1c3.display();
-    r2c3.display();
-    r3c3.display();
-    r4c3.display();
-    r5c3.display();
-//}    
-//Column 4 {
-    r1c4.display();
-    r2c4.display();
-    r3c4.display();
-    r4c4.display();
-    r5c4.display();
-//}   
-//Column 5 {
-    r1c5.display();
-    r2c5.display();
-    r3c5.display();
-    r4c5.display();
-    r5c5.display();
-//}
-//Column 6 {
-    r1c6.display();
-    r2c6.display();
-    r3c6.display();
-    r4c6.display();
-    r5c6.display();
-//}
-
+//jeocards {
+    for (var i = 0; i < jeoCards.length; i++) {
+        jeoCards[i].display();
+    }
+    for (var i = 0; i < jeoCards.length; i++) {
+    
+textAlign(CENTER, CENTER);
+    for (var j = 0; j < guests.length; j++) {
+        guests[j].display();
+        jeoCards[i].sceneChange();
+    }
 }
 
+//}
+}
+if(scene === 2){
+background(6,12,233);
+//guests {
+    for (var i = 0; i < guests.length; i++) {
+        guests[i].display();
+    }
+//}
+//jeocards {
+    for (var i = 0; i < jeoCards.length; i++) {
+        jeoCards[i].display();
+    }
+    for (var i = 0; i < jeoCards.length; i++) {
+    
+textAlign(CENTER, CENTER);
+    for (var j = 0; j < guests.length; j++) {
+        guests[j].display();
+        jeoCards[i].sceneChange();
+    }
+}
 
+//} 
+}
 
 };
+
 mouseClicked = function(){
 if(scene === 0 && jeoY >= height/3 && mouseX >= width/2-250/2 && mouseX <= width/2-250/2+250 && mouseY >= height/1.5-100/2 && mouseY <= height/1.5-100/2+100){
     scene += 1;
+    
 }
+if(scene === 1){
+    for (var i = 0; i < guests.length; i++) {
+    for (var j = 0; j < jeoCards.length; j++) {
+guests[i].add(jeoCards[j].pointsValue);
+guests[i].sub(jeoCards[j].pointsValue);
+    }
+}
+for (var i = 0; i < jeoCards.length; i++) {
+jeoCards[i].click();
+
+if(jeoCards[i].scene === "home" && scene === 1){
+    scene += 1;
+}
+}
+}
+
+if(scene === 2){
+    if(scene === 1){
+    for (var i = 0; i < guests.length; i++) {
+        for (var j = 0; j < jeoCards.length; j++) {
+guests[i].add(jeoCards[j].pointsValue);
+guests[i].sub(jeoCards[j].pointsValue);
+        }
+    }
+}
+}
+
+
+
 };
+scene = 1;
 
 
 
